@@ -7,8 +7,12 @@
 
 import numpy as np
 import random as rd
-from Lib.car import *
-from Lib.misc import *
+import curses
+import Lib.car
+import Lib.misc as misc
+import Lib.gui as gui
+
+stdscr = curses.initscr()
 
 # Definition des paramètres principaux.
 
@@ -18,21 +22,5 @@ StartX, StartY = (0, 0) # Position de départ
 NVeh = 1200 # Nombre de véhicules
 Speed_m, Speed_M = (110, 130) # Vitesse minimale et vitesse maximale (resp.)
 
-# Instanciation des véhicules:
-
-for i in range(NVeh):
-    vel = rd.randint(Speed_m, Speed_M)
-    type = Types[rd.randint(0,1)]
-    Vehicles.append(Vehicle(vel, type))
-
-while(1):
-    cls()
-    print("----------------------------------------")
-    print("|                                       ")
-    print("|                                       ")
-    print("|                                       ")
-    print("|                                       ")
-    print("|                                       ")
-    print("|                                       ")
-    print("|                                       ")
-    print("----------------------------------------")
+gui.main(stdscr)
+misc.cls()
