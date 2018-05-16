@@ -1,6 +1,6 @@
 # Name: LaSimulation
 # Desc: Simulation du traffic autoroutier interactive
-# Repo: https://github.com/Kakise/LaSimulation
+# Repo: https:#github.com/Kakise/LaSimulation
 # Author: Kakise
 # License: GPL-3.0
 # Path: -/Lib/model.py
@@ -41,14 +41,14 @@ class IDM:
     # @param s:     actual gap [m]
     # @param v:     actual speed [m/s]
     # @param vl:    leading speed [m/s]
-    # @param al:    leading acceleration [m/s^2] (optional; al=0 if 3 args)
+    # @param al:    leading acceleration [m/s^2] (optional al=0 if 3 args)
 
     def acceleration(self, s, v, vl, al):
         if s<0.0001:
             return -self.bmax
         
         noiseAcc = 0.3
-        accRnd = noiseAcc*(rd.randrange(0,1)-0.5)
+        accRnd = noiseAcc*(rd.random()-0.5)
 
         v0eff = min(self.v0, self.speedlimit, self.speedmax)
         v0eff *= self.alpha_v0
@@ -59,4 +59,39 @@ class IDM:
             accFree = self.a*(1-v/v0eff)
 
         sstar = self.s0 + max(0, v*self.T+0.5*v*(v-vl)/np.sqrt(self.a*self.b))
-        accInt = -self.a*np.power(sstar/np.max(s,self.s0),2)
+        accInt = -self.a*np.power(sstar/max(s,self.s0),2)
+
+        if v0eff<0.00001:
+            0
+        else:
+            max(-self.bmax, accFree + accInt + accRnd)
+
+# Modélisation d'un véhicule selon différents paramètres
+
+class Vehicle:
+    def __init__(self, length, width, u, lane, speed, type):
+        self.length=length
+        self.width=width
+        self.u=u
+        self.lane=lane
+        self.v=lane
+        self.dvdt=0
+        self.laneOld=lane
+        self.speed=speed
+        self.type=type
+        self.id=np.floor(100000*rd.random()+200)
+
+        self.route=[]
+        self.divergeAhead=False 
+        self.toRight=False 
+
+        self.dt_lastLC=10
+        self.dt_lastPassiveLC=10
+        self.acc=0
+        self.iLead=-100
+        self.iLag=-100
+
+        self.iLeadRight=-100
+        self.iLeadLeft=-100
+        self.iLagRight=-100
+        self.iLagLeft=-100

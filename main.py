@@ -7,4 +7,5 @@
 
 import Lib.model as mdl
 
-Model = mdl.IDM(130, 1.8, 78, 2, 2)
+CarModel = mdl.IDM(130, 1.8, 78, 2, 2)
+
