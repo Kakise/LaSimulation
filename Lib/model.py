@@ -1,6 +1,9 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+
 # Name: LaSimulation
 # Desc: Simulation du traffic autoroutier interactive
-# Repo: https:#github.com/Kakise/LaSimulation
+# Repo: https://github.com/Kakise/LaSimulation
 # Author: Kakise
 # License: GPL-3.0
 # Path: -/Lib/model.py
@@ -17,11 +20,11 @@ rd.seed(os.urandom(1024))
 
 # Intelligent Driver Model
 #
-# @param v0 = desired speed
-# @param T = time headway -> ~1.8s is a great value
-# @param s0 = minimum gap -> 78 meters in France
-# @param a = maximum acceleration
-# @param b = confortable deceleration
+# @param v0: desired speed
+# @param T: time headway -> ~1.8s is a great value
+# @param s0: minimum gap -> 78 meters in France
+# @param a: maximum acceleration
+# @param b: confortable deceleration
 
 class IDM:
     def __init__(self, v0, T, s0, a, b):
@@ -68,6 +71,14 @@ class IDM:
 
 # Modélisation d'un véhicule selon différents paramètres
 
+# Vehicle class
+# @param length: vehicle's length
+# @param width: vehicle's width
+# @param u: vehicle's long coordinate
+# @param lane: lane where the vehicle is
+# @param speed: actual speed
+# @param type: Car|Truck
+
 class Vehicle:
     def __init__(self, length, width, u, lane, speed, type):
         self.length=length
@@ -95,3 +106,13 @@ class Vehicle:
         self.iLeadLeft=-100
         self.iLagRight=-100
         self.iLagLeft=-100
+    
+    def setRoute(self, route):
+        self.route = route
+    
+    def isPerturbed(self):
+        return self.id>=10 and self.id<200
+    
+    def isRegularVeh(self):
+        # L'introduction du type "obstacle" permet de prévoir une évolution avec l'introduction d'obstacles sur la route
+        return (self.isPerturbed() or self.id >= 200) # and (self.type !== "obstacle")
