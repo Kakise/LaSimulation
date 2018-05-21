@@ -26,6 +26,19 @@ rd.seed(os.urandom(1024))
 # @param a: maximum acceleration
 # @param b: confortable deceleration
 
+# Fourth order Runge-Kutta method
+class Math:
+    def rK1(self, a, fa, hs):
+        a1 = fa(a)*hs
+        ak = a + a1*0.5
+        a2 = fa(ak)*hs
+        ak = a + a2*0.5
+        a3 = fa(ak)*hs
+        ak = a + a3
+        a4 = fa(ak)*hs
+        a = a + (a1 + 2*(a2 + a3) + a4)/6
+        return a
+
 class IDM:
     def __init__(self, v0, T, s0, a, b):
         self.v0 = v0
@@ -65,9 +78,9 @@ class IDM:
         accInt = -self.a*np.power(sstar/max(s,self.s0),2)
 
         if v0eff<0.00001:
-            0
+            return 0
         else:
-            max(-self.bmax, accFree + accInt + accRnd)
+            return max(-self.bmax, accFree + accInt + accRnd)
 
 # Modélisation d'un véhicule selon différents paramètres
 
