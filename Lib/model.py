@@ -36,22 +36,22 @@ class Math:
         a3 = fa(ak)*hs
         ak = a + a3
         a4 = fa(ak)*hs
-        a = a + (a1 + 2*(a2 + a3) + a4)/6
+        a  = a + (a1 + 2*(a2 + a3) + a4)/6
         return a
 
 class IDM:
     def __init__(self, v0, T, s0, a, b):
         self.v0 = v0
-        self.T = T
+        self.T  = T
         self.s0 = s0
-        self.a = a
-        self.b = b
+        self.a  = a
+        self.b  = b
         
         # Consts
-        self.alpha_v0=1
-        self.speedlimit=1000
-        self.speedmax=1000
-        self.bmax=18
+        self.alpha_v0   = 1
+        self.speedlimit = 1000
+        self.speedmax   = 1000
+        self.bmax       = 18
 
     # Acceleration function
     # @param s:     actual gap           [m]
@@ -64,17 +64,17 @@ class IDM:
             return -self.bmax
         
         noiseAcc = 0.3
-        accRnd = noiseAcc*(rd.random()-0.5)
+        accRnd   = noiseAcc*(rd.random()-0.5)
 
-        v0eff = min(self.v0, self.speedlimit, self.speedmax)
-        v0eff *= self.alpha_v0
+        v0eff    = min(self.v0, self.speedlimit, self.speedmax)
+        v0eff   *= self.alpha_v0
 
         if v < v0eff:
             accFree = self.a*(1-np.power(v/v0eff,4))
         else:
             accFree = self.a*(1-v/v0eff)
 
-        sstar = self.s0 + max(0, v*self.T+0.5*v*(v-vl)/np.sqrt(self.a*self.b))
+        sstar  = self.s0 + max(0, v*self.T+0.5*v*(v-vl)/np.sqrt(self.a*self.b))
         accInt = -self.a*np.power(sstar/max(s,self.s0),2)
 
         if v0eff<0.00001:
@@ -95,31 +95,31 @@ class IDM:
 class Vehicle:
     def __init__(self, length, width, u, lane, speed, type):
         # La majorité de ces paramètres sont ici dans l'optique d'un passage à un modèle avec changement de voie
-        self.length=length
-        self.width=width
-        self.u=u
-        self.lane=lane
-        self.v=lane
-        self.dvdt=0
-        self.laneOld=lane
-        self.speed=speed
-        self.type=type
-        self.id=np.floor(100000*rd.random()+200)
+        self.length    = length
+        self.width     = width
+        self.u         = u
+        self.lane      = lane
+        self.v         = lane
+        self.dvdt      = 0
+        self.laneOld   = lane
+        self.speed     = speed
+        self.type      = type
+        self.id        = np.floor(100000*rd.random()+200)
 
-        self.route=[]
-        self.divergeAhead=False 
-        self.toRight=False 
+        self.route        = []
+        self.divergeAhead = False 
+        self.toRight      = False 
 
-        self.dt_lastLC=10
-        self.dt_lastPassiveLC=10
-        self.acc=0
-        self.iLead=-100
-        self.iLag=-100
+        self.dt_lastLC        = 10
+        self.dt_lastPassiveLC = 10
+        self.acc              = 0
+        self.iLead            = -100
+        self.iLag             = -100
 
-        self.iLeadRight=-100
-        self.iLeadLeft=-100
-        self.iLagRight=-100
-        self.iLagLeft=-100
+        self.iLeadRight       = -100
+        self.iLeadLeft        = -100
+        self.iLagRight        = -100
+        self.iLagLeft         = -100
     
     def setRoute(self, route):
         self.route = route
