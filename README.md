@@ -1,3 +1,3 @@
 # LaSimulation
 
-Current stage: Ongoing
+Current stage: Working (lack of graphical feedback, only showing positions atm)

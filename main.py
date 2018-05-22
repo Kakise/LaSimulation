@@ -43,3 +43,5 @@ simulation(t, dt, end)
 # -> remove vehicles when out of screen
 # -> handle turns etc.
 # -> Vehicle.u to coordinates
+
+# TODO: Move everything to a python lib
