@@ -14,18 +14,18 @@ import os as os
 
 rd.seed(os.urandom(1024))
 
-CarModel = mdl.IDM(130, 1.8, 78, 2, 2)
+CarModel = mdl.IDM(130/3.6, 1.8, 78, 2, 2)
 Util = mdl.Math()
 t=0
 dt=0.01
 end=40
 
 def simulation(t,dt,end):
-    CarArr=[mdl.Vehicle(10, 20, 10, 0, 130, "car"), mdl.Vehicle(10, 20, 20, 0, 130, "car")]
+    CarArr=[mdl.Vehicle(1, 1, 100, 0, 130/3.6, "car"), mdl.Vehicle(1, 1, 200, 0, 130/3.6, "car")]
     while t<end:
         t+=dt
         if rd.random() < 1/20:
-            CarArr=[mdl.Vehicle(10, 20, 0, 0, 130, "car")] + CarArr
+            CarArr=[mdl.Vehicle(1, 1, 0, 0, 130/3.6, "car")] + CarArr
         for i in range(len(CarArr)-1):
             CarArr[i].acc = CarModel.acceleration(CarArr[i+1].u-CarArr[i].u, CarArr[i].speed, CarArr[i+1].speed, CarArr[i+1].acc)
             CarArr[i].speed = CarArr[i].speed + CarArr[i].acc * dt
@@ -35,6 +35,6 @@ def simulation(t,dt,end):
         CarArr[len(CarArr)-1].speed = CarArr[i].speed + CarArr[i].acc * dt
         CarArr[len(CarArr)-1].u = CarArr[i].u + CarArr[i].speed * dt + 1/2 * CarArr[i].acc * (dt**2)
     for car in CarArr:
-        print (car.speed)
+        print (car.u)
 
 simulation(t, dt, end)
