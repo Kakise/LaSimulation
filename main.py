@@ -14,7 +14,7 @@ import os as os
 
 rd.seed(os.urandom(1024))
 
-CarModel = mdl.IDM(130/3.6, 1.8, 78, 2, 2)
+CarModel = mdl.IDM(130/3.6, 1.8, 78, 0.3, 2)
 Util = mdl.Math()
 t=0
 dt=0.01
@@ -38,3 +38,8 @@ def simulation(t,dt,end):
         print (car.u)
 
 simulation(t, dt, end)
+
+# TODO: Implement graphical sim
+# -> remove vehicles when out of screen
+# -> handle turns etc.
+# -> Vehicle.u to coordinates
