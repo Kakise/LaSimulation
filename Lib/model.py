@@ -20,11 +20,11 @@ rd.seed(os.urandom(1024))
 
 # Intelligent Driver Model
 #
-# @param v0: desired speed
-# @param T: time headway -> ~1.8s is a great value
-# @param s0: minimum gap -> 78 meters in France
-# @param a: maximum acceleration
-# @param b: confortable deceleration
+# @param v0:   desired speed            [m/s]
+# @param T:    time headway             [s]  -> ~1.8s is a great value
+# @param s0:   minimum gap              [m] -> 78 meters in France for 130km/h (A calculer automatiquement?)
+# @param a:    maximum acceleration     [m/s²]
+# @param b:    confortable deceleration [m/s²]
 
 # Fourth order Runge-Kutta method
 class Math:
@@ -54,10 +54,10 @@ class IDM:
         self.bmax=18
 
     # Acceleration function
-    # @param s:     actual gap [m]
-    # @param v:     actual speed [m/s]
-    # @param vl:    leading speed [m/s]
-    # @param al:    leading acceleration [m/s^2] (optional al=0 if 3 args)
+    # @param s:     actual gap           [m]
+    # @param v:     actual speed         [m/s]
+    # @param vl:    leading speed        [m/s]
+    # @param al:    leading acceleration [m/s²] (optional)
 
     def acceleration(self, s, v, vl, al):
         if s<0.0001:
@@ -85,15 +85,16 @@ class IDM:
 # Modélisation d'un véhicule selon différents paramètres
 
 # Vehicle class
-# @param length: vehicle's length
-# @param width: vehicle's width
-# @param u: vehicle's long coordinate
-# @param lane: lane where the vehicle is
-# @param speed: actual speed
-# @param type: Car|Truck
+# @param length: vehicle's length          [m]
+# @param width:  vehicle's width           [m]
+# @param u:      vehicle's long coordinate [m]
+# @param lane:   lane where the vehicle is [int]
+# @param speed:  actual speed              [m/s]
+# @param type:   car|truck                 [string]
 
 class Vehicle:
     def __init__(self, length, width, u, lane, speed, type):
+        # La majorité de ces paramètres sont ici dans l'optique d'un passage à un modèle avec changement de voie
         self.length=length
         self.width=width
         self.u=u
