@@ -11,6 +11,7 @@
 import Lib.model as mdl
 import random as rd
 import os as os
+import numpy as np
 
 rd.seed(os.urandom(1024))
 
@@ -31,7 +32,7 @@ def finishedSim(t,dt,end):
     CarArr = [mdl.Vehicle(1, 1, 100, 0, 130/3.6, "car"), mdl.Vehicle(1, 1, 200, 0, 130/3.6, "car")]
     while t<end:
         t+=dt
-        if rd.random() < 1/20: # Frequency of 1/20 for inflow vehicles
+        if float(np.ceil(t)) == float(t): # Ne fonctionne pas mdr
             CarArr = [mdl.Vehicle(1, 1, 0, 0, 130/3.6, "car")] + CarArr
         # Last car is handled separately
         CarArr[len(CarArr)-1].acc   = CarModel.acceleration(10**10, CarArr[len(CarArr)-1].speed, 10**10, 10**10)
