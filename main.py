@@ -19,7 +19,7 @@ rd.seed(os.urandom(1024))
 # Initialisation of the model
 CarModel = mdl.IDM(130/3.6, 1.8, 78, 0.3, 2) # Uses french standard values
 Util = mdl.Misc()
-Window = gui.Canvas()
+Window = gui.Canvas(mdl, CarModel, 0.01)
 
 
 

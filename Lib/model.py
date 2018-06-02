@@ -132,7 +132,8 @@ class Vehicle:
         self.speed     = speed
         self.Type      = Type
         self.Id        = np.floor(100000*rd.random()+200)
-
+        self.rpz       = 0
+        
         self.route        = []
         self.divergeAhead = False 
         self.toRight      = False 
@@ -152,8 +153,8 @@ class Vehicle:
         self.route = route
     
     def isPerturbed(self):
-        return self.id>=10 and self.id<200
+        return self.Id>=10 and self.Id<200
     
     def isRegularVeh(self):
         # L'introduction du type "obstacle" permet de prévoir une évolution avec l'introduction d'obstacles sur la route
-        return (self.isPerturbed() or self.id >= 200) # and (self.type !== "obstacle")
+        return (self.isPerturbed() or self.Id >= 200) # and (self.type !== "obstacle")
