@@ -1,3 +1,3 @@
 # LaSimulation
 
-Current stage: Working (lack of graphical feedback, only showing positions atm)
+Little simulation of traffic using an IDM model (can be used seperately by importing `Lib/model.py` in your project)
