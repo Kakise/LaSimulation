@@ -54,21 +54,24 @@ class Canvas:
         self.can.create_line(1400,415,1500,415,fill='white')
      
         # Define a list to store the cars
-        self.CarArr = [self.mdl.Vehicle(10, 5, 100, 0, 130/3.6, "car"), self.mdl.Vehicle(10, 5, 200, 0, 130/3.6, "car")]
-             
+        self.CarArr = [self.mdl.Vehicle(20, 15, 100, 0, 130/3.6, "car"), self.mdl.Vehicle(20, 15, 200, 0, 130/3.6, "car")]
+        self.CarArr[0].rpz = self.can.create_rectangle(self.CarArr[0].u, 450, self.CarArr[0].u + self.CarArr[0].length, 450 + self.CarArr[0].width, fill='red')
+        self.CarArr[1].rpz = self.can.create_rectangle(self.CarArr[1].u, 450, self.CarArr[1].u + self.CarArr[1].length, 450 + self.CarArr[1].width, fill='red')
+
         #self.can.create_text(450, 475, text="mon texte ici", font="Arial 12")
         self.fen.after(self.dt, self.update)
         self.fen.mainloop()
         
     def update(self):
         # Adds a vehicle
-        if rd.random < 1/200:
-            self.CarArr = [self.mdl.Vehicle(10, 5, 0, 0, 130/3.6, "car")] + self.CarArr
-            self.can.create_rectangle(self.CarArr[0].u, 450, self.CarArr[0].u + self.CarArr[0].length, 450 + self.CarArr[0].width, fill='red')
+        if rd.random() < 1/20:
+            self.CarArr = [self.mdl.Vehicle(20, 15, 0, 0, 130/3.6, "car")] + self.CarArr
+            self.CarArr[0].rpz = self.can.create_rectangle(self.CarArr[0].u, 450, self.CarArr[0].u + self.CarArr[0].length, 450 + self.CarArr[0].width, fill='red')
         # Handles the last car seperately to avoid any problem
-        self.CarArr[len(self.CarArr)-1].acc   = self.CarModel.acceleration(10**10, self.CarArr[len(self.CarArr)-1].speed, 10**10, 10**10)
-        self.CarArr[len(self.CarArr)-1].speed = self.CarArr[len(self.CarArr)-1].speed + self.CarArr[len(self.CarArr)-1].acc * self.dt
-        self.CarArr[len(self.CarArr)-1].u     = self.CarArr[len(self.CarArr)-1].u + self.CarArr[len(self.CarArr)-1].speed * self.dt + 1/2 * self.CarArr[len(self.CarArr)-1].acc * (self.dt**2)
+        if len(self.CarArr) != 0:
+            self.CarArr[len(self.CarArr)-1].acc   = self.CarModel.acceleration(10**10, self.CarArr[len(self.CarArr)-1].speed, 10**10, 10**10)
+            self.CarArr[len(self.CarArr)-1].speed = self.CarArr[len(self.CarArr)-1].speed + self.CarArr[len(self.CarArr)-1].acc * self.dt
+            self.CarArr[len(self.CarArr)-1].u     = self.CarArr[len(self.CarArr)-1].u + self.CarArr[len(self.CarArr)-1].speed * self.dt + 1/2 * self.CarArr[len(self.CarArr)-1].acc * (self.dt**2)
         # Updates the position of each vehicles
         for i in reversed(range(len(self.CarArr)-1)):
             self.CarArr[i].acc   = self.CarModel.acceleration(self.CarArr[i+1].u-self.CarArr[i].u, self.CarArr[i].speed, self.CarArr[i+1].speed, self.CarArr[i+1].acc)
@@ -76,8 +79,9 @@ class Canvas:
             self.CarArr[i].u     = self.CarArr[i].u + self.CarArr[i].speed * self.dt + 1/2 * self.CarArr[i].acc * (self.dt**2)
         # Updates the graphical output
         for car in self.CarArr:
-            if car.u >= 1439:
-                self.CarArr.remove(car)
+            print(self.can.coords(car.rpz))
             self.can.move(car.rpz, car.u - self.can.coords(car.rpz)[2], 0)
+            if car.u >= 1600:
+                self.CarArr.remove(car)
         # Loop
         self.fen.after(self.dt, self.update)
