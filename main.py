@@ -19,15 +19,6 @@ rd.seed(os.urandom(1024))
 # Initialisation of the model
 CarModel = mdl.IDM(130/3.6, 1.8, 78, 0.3, 2) # Uses french standard values
 Util = mdl.Misc()
-Window = gui.Canvas(mdl, CarModel, 0.01)
-
-
-
-# TODO: Implement graphical sim
-# -> remove vehicles when out of screen
-# -> handle turns etc.
-# -> Vehicle.u to coordinates
-
-
+Window = gui.Canvas(mdl, CarModel, 0.2)
 
 # TODO: Move everything to a python lib
